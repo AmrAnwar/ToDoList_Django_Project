@@ -98,10 +98,5 @@ ENV/
 
 db.sqlite3
 media_cdn/
-static/
 static_cdn/
-todo/migrations/0001_initial.py
-todo/migrations/0002_auto_20170829_1226.py
-todo/migrations/0003_list_description.py
-todo/migrations/0004_auto_20170830_1257.py
-todo/migrations/0005_profile.py
+
