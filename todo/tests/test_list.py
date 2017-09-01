@@ -24,7 +24,8 @@ class TestMain(TestCase):
         self.client.login(username='anwar', password='password')
         res = self.client.get(reverse('lists-list'))
         self.assertEqual(res.status_code, 200)
-        res = self.client.get(self.list.get_absolute_url)
+        res = self.client.get(self.list.get_absolute_url())
+
         self.assertEqual(res.status_code, 200)
         # login another account
         self.client.login(username='guest', password='password')

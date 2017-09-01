@@ -28,5 +28,5 @@ class Sublist(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-    def __unicode__(self):
+    def __str__(self):
         return "sublist %s" % self.title

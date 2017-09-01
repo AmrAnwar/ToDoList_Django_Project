@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'todo'
-
+    'todo',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -117,11 +117,9 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join((BASE_DIR), "static_cdn")
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join((BASE_DIR), "media_cdn")
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

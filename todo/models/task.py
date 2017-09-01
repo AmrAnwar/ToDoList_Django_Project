@@ -22,7 +22,7 @@ class Task(models.Model):
     Task Model appears in List Detail and Has ModelViewSet
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user_tasks")
-    list = models.ForeignKey(List, related_name="list_tasks")
+    list = models.ForeignKey(List, null=True, blank=True, related_name="list_tasks")
 
     title = models.CharField(null=False, blank=False, max_length=100)
     archived = models.BooleanField(default=False)
@@ -35,5 +35,5 @@ class Task(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-    def __unicode__(self):
+    def __str__(self):
         return "task %s" % self.title

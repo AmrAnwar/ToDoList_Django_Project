@@ -30,8 +30,10 @@ class List(models.Model):
                                    related_name="users_lists")
 
     title = models.CharField(null=False, blank=False, max_length=100)
+    description = models.TextField(null=True, blank=True)
     archived = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    public = models.BooleanField(default=True)
 
     image = models.ImageField(
         upload_to=upload_location,
@@ -47,10 +49,9 @@ class List(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-    def __unicode__(self):
+    def __str__(self):
         return "list:%s, pk:%s" % (self.title, self.pk)
 
-    @property
     def get_absolute_url(self):
         """
         get detail url for List object

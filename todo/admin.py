@@ -8,6 +8,7 @@ from .models import (
     List,
     Task,
     Sublist,
+    Profile,
 )
 
 
@@ -38,3 +39,4 @@ class TaskAdmin(admin.ModelAdmin):
 
 admin.site.register(List, ListAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(Profile)

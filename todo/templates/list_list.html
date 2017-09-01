@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <button type="button" class="btn btn-default btn-lg"
+            data-toggle="modal" data-target="#myModal-list">Create List +</button>
+
+    <div class="tab-pane active" role="tabpanel">
+        {% include "modal/create.html" with target="myModal-list" modal_list_title="Create List"%}
+    </div>
+
+</div>
+    <h2>Lists Table</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>owner</th>
+            <th>created</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for list in object_list %}
+            <tr>
+                <td>
+                    <a href="{{ list.get_absolute_url }}">{{ list.title }}</a>
+                    {% if list.list_tasks.all %}
+
+                    <span id="gly_up_{{ list.id }}" class="glyphicon glyphicon-menu-up"></span>
+                    <span id="gly_down_{{ list.id }}" style="display: none"
+                          class="glyphicon glyphicon-menu-down"></span>
+
+                    <div id="list_task_table_{{ list.id }}" style="display: none">
+
+                        <table class="table">
+                            <tbody>
+                                {% for task in list.list_tasks.all %}
+                                    <tr>
+                                        <td> {{ task.title }}</td>
+{#                                        <td>{{ task.user }}</td>#}
+{#                                        <td>{{ task.created_at|timesince }}</td>#}
+                                    </tr>
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#gly_up_{{ list.id }}").click(function () {
+                                $("#gly_up_{{ list.id }}").hide();
+                                $("#gly_down_{{ list.id }}").show();
+                                $("#list_task_table_{{list.id}}").show();
+                            });
+
+                            $("#gly_down_{{ list.id }}").click(function () {
+                                $("#gly_down_{{ list.id }}").hide();
+                                $("#gly_up_{{ list.id }}").show();
+                                $("#list_task_table_{{list.id}}").hide();
+                            });
+                        });
+                    </script>
+
+                </td>
+                <td>{{ list.user }}</td>
+                <td>{{ list.created_at|timesince }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

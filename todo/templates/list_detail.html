@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block style %}
+
+{% endblock style %}
+{% block content %}
+    <h1>{{ list.title }}
+        <button type="button" class="btn btn-success btn-lg"
+                data-toggle="modal" data-target="#myModal-list">Update List
+        </button>
+    </h1>
+         <div class="tab-pane active" role="tabpanel">
+        {% include "modal/create.html" with target="myModal-list" modal_list_title="Update List" %}
+    </div>
+    <br>
+    <h2>Description: {{ list.description }}</h2>
+    <br>
+    <h2>Related Tasks:
+        <button type="button" class="btn btn-default"
+                data-toggle="modal" data-target="#myModal-task">Add Task +
+        </button>
+    </h2>
+    <div class="tab-pane active" role="tabpanel">
+        {% include "modal/create.html" with target="myModal-task" form=task_form modal_list_title="Create Task" %}
+    </div>
+    <br>
+    <table class="table">
+    <thead>
+    <tr>
+        <th>title</th>
+        <th>user</th>
+        <th>created</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for task in list.list_tasks.all %}
+        <tr>
+            <td>{{ task.title }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+{% endblock content %}
