@@ -20,7 +20,7 @@ import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^admin/$', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^account/(?P<pk>\d+)/$', views.ProfileView.as_view(), name="profile-detail"),
     url(r'^lists/(?P<pk>\d+)/$', views.ListDetailView.as_view(), name="lists-detail"),
     url(r'^lists/$', views.ListsView.as_view(), name="lists-list"),
