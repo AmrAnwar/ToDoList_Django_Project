@@ -7,9 +7,9 @@ from django.core.urlresolvers import reverse
 class InitTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User(username="anwar")
-        self.user.set_password("password")
-        self.user.save()
+        self.amr = User(username="anwar")
+        self.amr.set_password("password")
+        self.amr.save()
 
         self.user = User(username="guest")
         self.user.set_password("password")

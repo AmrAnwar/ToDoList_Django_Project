@@ -32,3 +32,9 @@ class TestList(InitTest):
         self.client.post(reverse("lists-list"), data=data)
         self.assertEqual(count+1, List.objects.count())
 
+    def test_invite(self):
+        self.client.login(username='guest', password='password')
+        res = self.client.get(reverse("lists-invite", kwargs={"pk": self.list.pk,
+                                                              "code": self.amr.pk}))
+        self.assertEqual(res.status_code, 200)
+        self.assertIn(self.amr, self.list.users)
