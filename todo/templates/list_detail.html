@@ -3,6 +3,7 @@
 
 {% endblock style %}
 {% block content %}
+<div class="container">
     <h1>{{ list.title }}
         <button type="button" class="btn btn-success btn-lg"
                 data-toggle="modal" data-target="#myModal-list">Update List
@@ -27,15 +28,17 @@
     <thead>
     <tr>
         <th>title</th>
-        <th>user</th>
-        <th>created</th>
+{#        <th>user</th>#}
+{#        <th>created</th>#}
     </tr>
     </thead>
     <tbody>
     {% for task in list.list_tasks.all %}
         <tr>
-            <td>{{ task.title }}</td>
+            <td><a href="{{ task.get_absolute_url }}"> {{ task.title }}</a> </td>
         </tr>
     {% endfor %}
     </tbody>
+    </table>
+</div>
 {% endblock content %}

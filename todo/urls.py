@@ -19,11 +19,15 @@ import views
 import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^account/(?P<pk>\d+)/$', views.ProfileView.as_view(), name="profile-detail"),
+    url(r'^profile/(?P<username>[\w-]+)/$', views.ProfileView.as_view(), name="profile-detail"),
     url(r'^lists/(?P<pk>\d+)/$', views.ListDetailView.as_view(), name="lists-detail"),
+    url(r'^tasks/(?P<pk>\d+)/$', views.TaskDetailView.as_view(), name="tasks-detail"),
     url(r'^lists/$', views.ListsView.as_view(), name="lists-list"),
+    url(r'^$', views.index, name='home'),
+
 ]
 
 if settings.DEBUG:

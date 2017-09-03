@@ -25,28 +25,30 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
     template_name = 'list_detail.html'
     fields = ['title', 'description', 'users', 'image']
 
+    def form_valid(self, form):
+        messages.success(self.request, "List Updated")
+        return super(ListDetailView, self).form_valid(form)
+
     def dispatch(self, request, *args, **kwargs):
-        self.form = TaskForm(request.POST or None)
+        self.task_form = TaskForm(request.POST, prefix="task_form")
         self.object = self.get_object()
         if self.request.user in self.object.users.all():
             return super(ListDetailView, self).dispatch(request, *args, **kwargs)
         raise Http404
 
     def get_context_data(self, **kwargs):
-        kwargs['task_form'] = self.form
+        kwargs['task_form'] = self.task_form
         return super(ListDetailView, self).get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
-        if self.form.is_valid():
-            instance = self.form.save(commit=False)
+        task_form = TaskForm(request.POST, prefix="task_form")
+        if task_form.is_valid():
+            instance = task_form.save(commit=False)
             instance.user = self.request.user
             instance.list = self.object
             instance.save()
             messages.success(request, "Task Added")
-            return HttpResponseRedirect(reverse("lists-detail", kwargs={'pk': self.object.pk}))
-        else:
-            messages.error(request, "form isn't valid")
-            return HttpResponseRedirect(reverse("lists-detail", kwargs={'pk': self.object.pk}))
+        return super(ListDetailView, self).post(self, request)
 
 
 class ListsView(LoginRequiredMixin, CreateView, ListView):

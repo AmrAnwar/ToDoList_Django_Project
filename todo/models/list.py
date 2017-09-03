@@ -8,18 +8,18 @@ from django.core.urlresolvers import reverse
 from .helper import upload_location
 
 
-class ListManager(models.Manager):
-    def active(self, **kwargs):
-        """
-        filter archived objs or archived and specific user Lists
-        :param args:
-        :param kwargs:
-        :return: Queryset of lists filtered by archived element or archived and user
-        """
-        if 'user' in kwargs:
-            return super(ListManager, self).filter(archived=False, user=kwargs['user'])
-        return super(ListManager, self).filter(archived=False)
-
+# class ListManager(models.Manager):
+#     def active(self, **kwargs):
+#         """
+#         filter archived objs or archived and specific user Lists
+#         :param args:
+#         :param kwargs:
+#         :return: Queryset of lists filtered by archived element or archived and user
+#         """
+#         if 'user' in kwargs:
+#             return super(ListManager, self).filter(archived=False, user=kwargs['user'])
+#         return super(ListManager, self).filter(archived=False)
+#
 
 class List(models.Model):
     """
@@ -44,7 +44,7 @@ class List(models.Model):
     height_field = models.IntegerField(default=0)
     width_field = models.IntegerField(default=0)
 
-    objects = ListManager()
+    # objects = ListManager()
 
     class Meta:
         ordering = ["-created_at"]
@@ -58,3 +58,13 @@ class List(models.Model):
         :return: list detail url
         """
         return reverse("lists-detail", kwargs={'pk': self.pk})
+
+    @property
+    def get_progress(self):
+        sum_total_points = 0
+        sum_finished_points = 0
+        for task in self.list_tasks.all():
+            sum_total_points += task.points
+            if task.status == 4:
+                sum_finished_points += task.points
+        return int((sum_finished_points/sum_total_points) * 100)
