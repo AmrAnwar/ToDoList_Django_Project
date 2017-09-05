@@ -1,6 +1,3 @@
-import random
-
-
 from django.core.urlresolvers import reverse
 from .test_init import InitTest
 from ..models import List, Task, Code

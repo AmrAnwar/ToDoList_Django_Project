@@ -5,3 +5,4 @@ from .index_view import index
 from .tasks_views import TaskDetailView
 from .list_view import list_invite
 from .auth import LoginView, LogoutView, RegisterView
+from remove_view import remove_redirect

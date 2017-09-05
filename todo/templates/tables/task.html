@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>title</th>
+        <th>owner</th>
         <th>created at</th>
         <th>points</th>
     </tr>
@@ -20,7 +21,15 @@
                     class="success"
                 {% endif %}
         >
-            <td><a href="{{ task.get_absolute_url }}"> {{ task.title }}</a></td>
+            <td>
+                {% if request.user == task.user or request.user == task.list.user %}
+                <a href="{{ task.delete_url }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                </a>
+
+                {% endif %}
+                <a href="{{ task.get_absolute_url }}"> {{ task.title }}</a></td>
+            <td><a href="{% url "profile-detail" username=task.user%}">{{ task.user.get_full_name }}</a></td>
             <td>{{ task.created_at }}</td>
             <td>{{ task.points }}</td>
         </tr>

@@ -1,5 +1,3 @@
-# Avoid importing settings directly to
-# allow tests to use test-specific settings
 from django.conf import settings
 
 from django.http import HttpResponseRedirect

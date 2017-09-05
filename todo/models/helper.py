@@ -1,4 +1,3 @@
-from exceptions import AttributeError
 
 
 def upload_location(instance, filename):

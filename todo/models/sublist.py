@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 from django.db import models
 from .task import Task
+from django.urls import reverse
+
 # Create your models here.
 
 
@@ -20,3 +22,7 @@ class Sublist(models.Model):
 
     def __str__(self):
         return "sublist %s" % self.title
+
+    def delete_url(self):
+        return reverse("remove", kwargs={"pk": self.pk,
+                                         "key": "sublist"})

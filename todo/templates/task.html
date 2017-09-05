@@ -67,7 +67,13 @@
     <tbody>
     {% for sublist in task.task_sublist.all %}
         <tr>
-            <td>{{ sublist.title }}</td>
+            <td>
+                {% if request.user == sublist.task.user or request.user == sublist.task.list.user %}
+                <a href="{{ sublist.delete_url }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                </a>
+                {% endif %}
+                 {{ sublist.title }}</td>
             <td>{{ sublist.created_at }}</td>
         </tr>
     {% endfor %}

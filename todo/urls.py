@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'lists/invite/(?P<code>.+)/$', views.list_invite, name="lists-invite"),
     url(r'^tasks/(?P<pk>\d+)/$', views.TaskDetailView.as_view(), name="tasks-detail"),
     url(r'^lists/$', views.ListsView.as_view(), name="lists-list"),
+    url(r'^remove/(?P<key>[\w-]+)/(?P<pk>\d+)/$', views.remove_redirect, name="remove"),
     url(r'^$', views.index, name='home'),
     # Authentication urls
     url(r'^accounts/login/$', views.LoginView.as_view(), name='login'),

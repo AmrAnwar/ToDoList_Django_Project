@@ -8,18 +8,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
-# class TaskManager(models.Manager):
-#     def active(self, *args, **kwargs):
-#         """
-#         filter archived objs or archived and specific user Lists
-#         :param args:
-#         :param kwargs:
-#         :return: Queryset of lists filtered by archived element or archived and user
-#         """
-#         if 'user' in kwargs:
-#             return super(TaskManager, self).filter(archived=False, user=kwargs['user'])
-
-
 class Task(models.Model):
     """
     Task Model appears in List Detail and Has ModelViewSet
@@ -55,3 +43,7 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse("tasks-detail", kwargs={'pk': self.pk})
+
+    def delete_url(self):
+        return reverse("remove", kwargs={"pk": self.pk,
+                                         "key": "task"})

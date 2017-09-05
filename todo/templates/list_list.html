@@ -22,8 +22,14 @@
         <tbody>
         {% for list in object_list %}
             <tr>
+
                 <td>
-                    <a href="{{ list.get_absolute_url }}">{{ list.title }}</a>
+                {% if request.user == list.user %}
+                    <a href="{{ list.delete_url }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                {% endif %}
+                    <a href="{{ list.get_absolute_url }}"> {{ list.title }}</a>
                     {% if list.list_tasks.all %}
 
 
