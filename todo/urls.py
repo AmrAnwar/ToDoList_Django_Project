@@ -24,10 +24,18 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^profile/(?P<username>[\w-]+)/$', views.ProfileView.as_view(), name="profile-detail"),
     url(r'^lists/(?P<pk>\d+)/$', views.ListDetailView.as_view(), name="lists-detail"),
-    # url(r'lists/(?P<pk>\d+)/invite/(?P<code>/d+)/$', views., name="lists-invite"),
+    url(r'lists/invite/(?P<code>.+)/$', views.list_invite, name="lists-invite"),
     url(r'^tasks/(?P<pk>\d+)/$', views.TaskDetailView.as_view(), name="tasks-detail"),
     url(r'^lists/$', views.ListsView.as_view(), name="lists-list"),
     url(r'^$', views.index, name='home'),
+    # Authentication urls
+    url(r'^accounts/login/$', views.LoginView.as_view(), name='login'),
+    url(r'^accounts/logout/$', views.LogoutView.as_view(), name='logout'),
+    url(
+        r'^accounts/register/$',
+        views.RegisterView.as_view(),
+        name='register'),
+
 
 ]
 

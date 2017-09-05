@@ -9,11 +9,19 @@
                 data-toggle="modal" data-target="#myModal-list">Update List
         </button>
     </h1>
-         <div class="tab-pane active" role="tabpanel">
+    <button type="button" class="btn btn-info"
+            data-toggle="modal" data-target="#myModal-invite">add member +
+    </button>
+    <div class="tab-pane active" role="tabpanel">
         {% include "modal/create.html" with target="myModal-list" modal_list_title="Update List" %}
     </div>
+    <div class="tab-pane active" role="tabpanel">
+        {% include "modal/invite.html" with target="myModal-invite" modal_list_title="Invite new Members" %}
+
+    </div>
     <br>
-    <h2>Description: {{ list.description }}</h2>
+    <pre>{{ list.description }}
+            </pre>
     <br>
     <h2>Related Tasks:
         <button type="button" class="btn btn-default"
@@ -24,21 +32,6 @@
         {% include "modal/create.html" with target="myModal-task" form=task_form modal_list_title="Create Task" %}
     </div>
     <br>
-    <table class="table">
-    <thead>
-    <tr>
-        <th>title</th>
-{#        <th>user</th>#}
-{#        <th>created</th>#}
-    </tr>
-    </thead>
-    <tbody>
-    {% for task in list.list_tasks.all %}
-        <tr>
-            <td><a href="{{ task.get_absolute_url }}"> {{ task.title }}</a> </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-    </table>
+    {% include "tables/task.html" %}
 </div>
 {% endblock content %}

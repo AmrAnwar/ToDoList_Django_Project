@@ -3,20 +3,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView,
     DetailView,
-    FormView,
     CreateView,
     UpdateView,
 )
-from django.http import JsonResponse, HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404
-from django.forms import formset_factory, modelformset_factory
-
-from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 
-from ..models import List
+from ..models import List, Code
 from ..forms import TaskForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
@@ -41,6 +38,13 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
         return super(ListDetailView, self).get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
+        if request.POST.get("prof1"):
+            for email in request.POST:
+                if "prof" in email.__str__():
+                    user = get_object_or_404(User, email=request.POST.get(email))
+                    code = Code.objects.create(user=user, list=self.get_object())
+                    print code.code, code.list
+                    messages.success(request, "Members added")
         task_form = TaskForm(request.POST, prefix="task_form")
         if task_form.is_valid():
             instance = task_form.save(commit=False)
@@ -49,6 +53,18 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
             instance.save()
             messages.success(request, "Task Added")
         return super(ListDetailView, self).post(self, request)
+
+
+@login_required
+def list_invite(request, pk=None, code=None):
+    code_guest = get_object_or_404(Code, code=code)
+    if code_guest.user not in code_guest.list.users.all():
+        messages.success(request, "you added to the list")
+    else:
+        messages.warning(request, "You are already in the list")
+    code_guest.list.users.add(code_guest.user)
+    return HttpResponseRedirect(reverse("lists-detail",
+                                        kwargs={"pk": code_guest.list.pk}))
 
 
 class ListsView(LoginRequiredMixin, CreateView, ListView):

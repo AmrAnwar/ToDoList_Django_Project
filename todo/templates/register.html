@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-12 text-center mt-4 mb-4">
+                <h1>Register</h1>
+          </div>
+          </div>
+          <form method="post" class="ajax_form" enctype="multipart/form-data" id="register_form" scroll-to-top="true" >{% csrf_token %}
+            <div class="alert hidden"></div>
+            <div class="row">
+              <div class="col-12 col-sm-6 offset-sm-3">
+                                   		{% csrf_token %}
+		{{ form|crispy }}
+              </div>
+            </div>
+              {% if profile %}
+                  <input type="submit" value="Update" class="btn btn-primary float-right">
+                {% else %}
+              <input type="submit" value="Register" class="btn btn-primary float-right">
+                {% endif %}
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

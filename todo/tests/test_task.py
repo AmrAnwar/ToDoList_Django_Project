@@ -14,3 +14,11 @@ class TestList(InitTest):
         self.client.login(username="guest", password="password")
         res = self.client.get(self.task.get_absolute_url())
         self.assertEqual(res.status_code, 200)
+
+    def test_update(self):
+        self.client.login(username="guest", password="password")
+        data = {
+            "title": "test-title"
+        }
+        self.client.post(self.task.get_absolute_url(), data=data)
+

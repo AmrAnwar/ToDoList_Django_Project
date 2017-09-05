@@ -12,7 +12,7 @@
                     <div class="col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3 text-center">
                         {% if profile.image %}
                         <div class="avatar">
-                            <img src="http://127.0.0.1:8000/media/example_ASM7oh2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                            <img src="{{ profile.image.url }}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                         </div>
                         {% endif %}
                         <div class="name">
@@ -54,7 +54,7 @@
                                         <li>
                                             <div class="row">
                                                 <div class="col-md-2 col-md-offset-0 col-xs-3 col-xs-offset-2">
-                                                    <img src="http://127.0.0.1:8000/media/example_ASM7oh2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                    <img src="{{ profile.image.url }}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                                 </div>
                                                 <div class="col-md-7 col-xs-4">
                                                     <h6>{{ user.get_full_name}}</h6>
@@ -94,7 +94,6 @@
 
 
                             {% endif %}
-{#                            <btn class="btn btn-warning btn-fill">Find artists</btn>#}
                         </div>
                     </div>
 

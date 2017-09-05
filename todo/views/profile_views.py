@@ -16,10 +16,7 @@ from ..forms import ProfileForm
 
 class ProfileView(FormView):
     form_class = ProfileForm
-    # context_object_name = "profile"
     template_name = 'profile.html'
-    # model = Profile
-    # fields = ['following', 'about', 'image']
 
     def dispatch(self, request, *args, **kwargs):
         self.user = get_object_or_404(User, username=kwargs['username'])

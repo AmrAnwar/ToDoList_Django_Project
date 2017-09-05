@@ -1,11 +1,9 @@
 import random
 
-from django.test import Client, TestCase
-from django.contrib.auth.models import User
+
 from django.core.urlresolvers import reverse
-from ..factories import ListFactory, TaskFactory, SubListFactory, UserFactory
 from .test_init import InitTest
-from ..models import List, Task
+from ..models import List, Task, Code
 
 
 class TestList(InitTest):
@@ -33,8 +31,18 @@ class TestList(InitTest):
         self.assertEqual(count+1, List.objects.count())
 
     def test_invite(self):
+        code_obj = Code.objects.create(user=self.amr, list=self.list)
+        self.assertEqual(code_obj.__str__(), self.amr.username)
         self.client.login(username='guest', password='password')
-        res = self.client.get(reverse("lists-invite", kwargs={"pk": self.list.pk,
-                                                              "code": self.amr.pk}))
-        self.assertEqual(res.status_code, 200)
-        self.assertIn(self.amr, self.list.users)
+        res = self.client.get(reverse("lists-invite", kwargs={"code": code_obj.code}))
+        self.assertEqual(res.status_code, 302)
+        self.assertIn(self.amr, self.list.users.all())
+
+    def test_invite_form(self):
+        self.client.login(username='guest', password='password')
+        count = Code.objects.count()
+        data = {
+            'prof1': "amr@example.com",
+        }
+        self.client.post(self.list.get_absolute_url(), data=data)
+        self.assertEqual(Code.objects.count(), count+1)

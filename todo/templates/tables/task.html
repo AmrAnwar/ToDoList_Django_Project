@@ -1,0 +1,30 @@
+    <table class="table">
+    <thead>
+    <tr>
+        <th>title</th>
+        <th>created at</th>
+        <th>points</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for task in list.list_tasks.all %}
+        <tr
+
+                {% if task.status == 1 %}
+                    class="danger"
+                {% elif task.status == 2 %}
+                    class="info"
+                {% elif task.status == 3 %}
+                    class="warning"
+                {% elif task.status == 4 %}
+                    class="success"
+                {% endif %}
+        >
+            <td><a href="{{ task.get_absolute_url }}"> {{ task.title }}</a></td>
+            <td>{{ task.created_at }}</td>
+            <td>{{ task.points }}</td>
+        </tr>
+
+    {% endfor %}
+    </tbody>
+    </table>
