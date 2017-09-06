@@ -1,13 +1,13 @@
 ### [The Site URL ](http://astral00.pythonanywhere.com/ "The site URL ")
 
 
-###About the site :
+### About the site :
 
 this is Simple Project Mangment site. 
 [And click to see  Rest API Project for this site too by me ](https://github.com/AmrAnwar/ToDoList_Django_RestAPI_Project "And See  Rest API Project for this site too by me ")
 
 
-###What User Can Do: 
+### What User Can Do: 
 - create, update, delete Lists << list has Tasks inside it 
 - create, update, delete Task inside each list, 
 - tasks has status , points , sublists inside it .
