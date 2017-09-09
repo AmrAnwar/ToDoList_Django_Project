@@ -6,12 +6,14 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from .helper import upload_location
+from .project import Project
 
 
 class List(models.Model):
     """
     the List Model
     """
+    project = models.ForeignKey(Project, related_name="project_lists", null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user_lists")
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
                                    related_name="users_lists")
