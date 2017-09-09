@@ -7,6 +7,15 @@ from ..models import List, Task, Sublist
 
 
 def remove_redirect(request, key=None, pk=None):
+    """
+    delete list , task or sublist according to the key and pk
+    if the user is  the list owner then he can delete << any thing in his list
+    if the user the task owner then he can delete << his task and sublists in this task
+    :param request:
+    :param key: <string> can be ("list", "task" or "sublist")
+    :param pk:
+    :return: redirect to the parent object for the deleted object
+    """
     message = "you don't have permission"
     if key == 'list':
         my_object = get_object_or_404(List, pk=pk)

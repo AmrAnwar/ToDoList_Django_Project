@@ -16,10 +16,6 @@ class LoginView(TemplateView):
     template_name = 'login.html'
 
     def post(self, request):
-        """
-        :param request:
-        :return:
-        """
         login_message = "Email/Password Combination is incorrect"
         username = request.POST['username']
         password = request.POST['password']

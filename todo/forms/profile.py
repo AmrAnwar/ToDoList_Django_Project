@@ -24,6 +24,10 @@ class ProfileForm(forms.ModelForm):
         )
 
     def clean_email(self):
+        """
+        check if email already exists
+        :return: email if it's not exists else raise ValidationError
+        """
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError(

@@ -9,7 +9,7 @@ from django.urls import reverse
 
 class Sublist(models.Model):
     """
-    Sublist Model appears in Task Detail and Serializer
+    Sublist Model appears in Task Detail
     """
     task = models.ForeignKey(Task, related_name="task_sublist")
 

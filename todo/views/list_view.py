@@ -23,10 +23,22 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
     fields = ['title', 'description', 'users', 'image']
 
     def form_valid(self, form):
+        """
+        if form is valid create success message
+        :param form:
+        """
         messages.success(self.request, "List Updated")
         return super(ListDetailView, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
+        """
+        create form object from(TaskForm) and create prefix for it ("task_form")
+        check if user in the list before GET or POST request if not << raise 404
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
         self.task_form = TaskForm(request.POST, prefix="task_form")
         self.object = self.get_object()
         if self.request.user in self.object.users.all():
@@ -34,10 +46,23 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
         raise Http404
 
     def get_context_data(self, **kwargs):
+        """
+        add the object form(task_form) to the context_data
+        :param kwargs:
+        """
         kwargs['task_form'] = self.task_form
         return super(ListDetailView, self).get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
+        """
+        // Post method to check if task form is valid << create new task with success message
+        // and check if there are post("prof1") request to add new  members to the list
+            if POST request ("prof1") then will make for..loop-
+            into the query to get all the users emails
+        :param request:
+        :param args:
+        :param kwargs:
+        """
         if request.POST.get("prof1"):
             for email in request.POST:
                 if "prof" in email.__str__():
@@ -56,7 +81,14 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
 
 
 @login_required
-def list_invite(request, pk=None, code=None):
+def list_invite(request, code=None):
+    """
+    get the invitation code then add the code.user to the code.list
+    then << redirect to code.list detail page
+    :param request:
+    :param code: list detail url
+    :return:
+    """
     code_guest = get_object_or_404(Code, code=code)
     if code_guest.user not in code_guest.list.users.all():
         messages.success(request, "you added to the list")
@@ -89,6 +121,3 @@ class ListsView(LoginRequiredMixin, CreateView, ListView):
         :return: filter forms by form owner user
         """
         return self.model.objects.filter(users__id=self.request.user.id)
-
-    def get_context_data(self, **kwargs):
-        return super(ListsView, self).get_context_data(**kwargs)

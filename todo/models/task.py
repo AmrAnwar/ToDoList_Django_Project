@@ -10,7 +10,7 @@ from django.urls import reverse
 
 class Task(models.Model):
     """
-    Task Model appears in List Detail and Has ModelViewSet
+    Task Model appears in List Detail
     """
     STATUS = (
         (1, 'NEW'),
@@ -32,8 +32,6 @@ class Task(models.Model):
     file = models.FileField(upload_to=upload_location, null=True, blank=True)
     points = models.FloatField(default=0)
     status = models.IntegerField(choices=STATUS, default=1)
-
-    # objects = TaskManager()
 
     class Meta:
         ordering = ["-created_at"]
