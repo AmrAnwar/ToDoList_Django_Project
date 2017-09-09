@@ -96,7 +96,6 @@ ENV/
 # Rope project settings
 .ropeproject
 
-db.sqlite3
 media_cdn/
 static_cdn/
 
