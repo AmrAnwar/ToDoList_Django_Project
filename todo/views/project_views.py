@@ -82,7 +82,6 @@ class ProjectDetailView(LoginRequiredMixin, UpdateView, DetailView):
 
 @login_required
 def project_invite(request, code=None):
-    pass
     """
     get the invitation code then add the code.user to the code.project
     then << redirect to code.project detail page
