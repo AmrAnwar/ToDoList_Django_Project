@@ -33,3 +33,28 @@ class ProfileForm(forms.ModelForm):
             raise forms.ValidationError(
                 'Email already exists')
         return email
+
+    def clean_username(self):
+        """
+        check if username already exists
+        :return: username if it's not exists else raise ValidationError
+        """
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError(
+                'username already exists')
+        return username
+
+
+class ProfileFormUpdate(forms.ModelForm):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+
+    class Meta:
+        model = Profile
+        fields = (
+            'first_name',
+            'last_name',
+            'about',
+            'image',
+        )

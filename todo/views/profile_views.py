@@ -11,11 +11,11 @@ from django.views.generic.detail import BaseDetailView
 
 from ..models import Profile
 from django.contrib.auth.models import User
-from ..forms import ProfileForm
+from ..forms import ProfileFormUpdate
 
 
 class ProfileView(FormView):
-    form_class = ProfileForm
+    form_class = ProfileFormUpdate
     template_name = 'profile.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -45,10 +45,7 @@ class ProfileView(FormView):
         """
         initial = super(ProfileView, self).get_initial()
         initial['first_name'] = self.user.first_name
-        initial['first_name'] = self.user.first_name
-        initial['username'] = self.user.username
         initial['last_name'] = self.user.last_name
-        initial['email'] = self.user.email
         return initial
 
     def get_form_kwargs(self):
@@ -72,9 +69,6 @@ class ProfileView(FormView):
         user_data = {
                 'first_name': form.cleaned_data.pop('first_name'),
                 'last_name': form.cleaned_data.pop('last_name'),
-                'username': form.cleaned_data.pop('username'),
-                'email': form.cleaned_data.pop('email'),
-
         }
         self.profile.user.__dict__.update(user_data)
         self.profile.user.save()
@@ -84,5 +78,3 @@ class ProfileView(FormView):
         messages.success(self.request, details_string)
         return HttpResponseRedirect(reverse("profile-detail",
                                             kwargs={'username': self.user.username}))
-
-
