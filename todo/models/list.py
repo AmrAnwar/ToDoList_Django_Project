@@ -11,12 +11,9 @@ from .project import Project
 
 class List(models.Model):
     """
-    the List Model
+    the Project Model
     """
     project = models.ForeignKey(Project, related_name="project_lists", null=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user_lists")
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
-                                   related_name="users_lists")
 
     title = models.CharField(null=False, blank=False, max_length=100)
     description = models.TextField(null=True, blank=True)
@@ -54,6 +51,7 @@ class List(models.Model):
             sum_total_points += task.points
             if task.status == 4:
                 sum_finished_points += task.points
+        if sum_total_points == 0: return 0
         return int((sum_finished_points / sum_total_points) * 100)
 
     def delete_url(self):

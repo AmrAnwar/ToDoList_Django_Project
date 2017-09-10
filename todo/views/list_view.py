@@ -3,24 +3,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView,
     DetailView,
-    CreateView,
     UpdateView,
 )
-from django.http import HttpResponseRedirect, Http404
-from django.urls import reverse
-from django.shortcuts import get_object_or_404
+from django.http import Http404
 
-from ..models import List, Code
+from ..models import List
 from ..forms import TaskForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 
 
 class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
     model = List
     context_object_name = 'list'
     template_name = 'list_detail.html'
-    fields = ['title', 'description', 'users', 'image']
+    fields = ['title', 'description', 'image']
 
     def form_valid(self, form):
         """
@@ -41,7 +36,7 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
         """
         self.task_form = TaskForm(request.POST, prefix="task_form")
         self.object = self.get_object()
-        if self.request.user in self.object.users.all():
+        if self.request.user in self.object.project.users.all():
             return super(ListDetailView, self).dispatch(request, *args, **kwargs)
         raise Http404
 
@@ -63,13 +58,6 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
         :param args:
         :param kwargs:
         """
-        if request.POST.get("prof1"):
-            for email in request.POST:
-                if "prof" in email.__str__():
-                    user = get_object_or_404(User, email=request.POST.get(email))
-                    code = Code.objects.create(user=user, list=self.get_object())
-                    print code.code, code.list
-                    messages.success(request, "Members added")
         task_form = TaskForm(request.POST, prefix="task_form")
         if task_form.is_valid():
             instance = task_form.save(commit=False)
@@ -80,44 +68,15 @@ class ListDetailView(LoginRequiredMixin, UpdateView, DetailView):
         return super(ListDetailView, self).post(self, request)
 
 
-@login_required
-def list_invite(request, code=None):
-    """
-    get the invitation code then add the code.user to the code.list
-    then << redirect to code.list detail page
-    :param request:
-    :param code: list detail url
-    :return:
-    """
-    code_guest = get_object_or_404(Code, code=code)
-    if code_guest.user not in code_guest.list.users.all():
-        messages.success(request, "you added to the list")
-    else:
-        messages.warning(request, "You are already in the list")
-    code_guest.list.users.add(code_guest.user)
-    return HttpResponseRedirect(reverse("lists-detail",
-                                        kwargs={"pk": code_guest.list.pk}))
-
-
-class ListsView(LoginRequiredMixin, CreateView, ListView):
+class ListsView(LoginRequiredMixin, ListView):
     context_object_name = 'lists'
     model = List
     template_name = 'list_list.html'
-    fields = ['title', 'description', 'image', 'users']
-
-    def form_valid(self, form):
-        """
-        add the owner user to the form
-        :param form: the new form object
-        :return:
-        """
-        form.instance.user = self.request.user
-        form.instance = form.save()
-        form.instance.users.add(self.request.user)
-        return super(ListsView, self).form_valid(form)
 
     def get_queryset(self):
         """
-        :return: filter forms by form owner user
+        :return: filter lists by form projects.users
         """
-        return self.model.objects.filter(users__id=self.request.user.id)
+        qs_id = [list.id for list in self.model.objects.all()
+               if self.request.user in list.project.users.all()]
+        return self.model.objects.filter(id__in=qs_id)

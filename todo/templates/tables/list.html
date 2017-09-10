@@ -1,0 +1,64 @@
+<table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>project</th>
+            <th>created</th>
+            <th>process</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for list in object_list %}
+            <tr>
+
+                <td>
+                {% if request.user == list.project.user %}
+                    <a href="{{ list.delete_url }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                {% endif %}
+                    <a href="{{ list.get_absolute_url }}"> {{ list.title }}</a>
+                    {% if list.list_tasks.all %}
+
+
+                    <span id="gly_up_{{ list.id }}" class="fa fa-arrow-up" aria-hidden="true"></span>
+                    <span id="gly_down_{{ list.id }}" style="display: none" class="fa fa-arrow-down" aria-hidden="true"></span>
+
+
+                    <div id="list_task_table_{{ list.id }}" style="display: none">
+
+                            {% include "tables/task.html" %}
+
+                    </div>
+                    {% endif %}
+
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#gly_up_{{ list.id }}").click(function () {
+                                $("#gly_up_{{ list.id }}").hide();
+                                $("#gly_down_{{ list.id }}").show();
+                                $("#list_task_table_{{list.id}}").show();
+                            });
+
+                            $("#gly_down_{{ list.id }}").click(function () {
+                                $("#gly_down_{{ list.id }}").hide();
+                                $("#gly_up_{{ list.id }}").show();
+                                $("#list_task_table_{{list.id}}").hide();
+                            });
+                        });
+                    </script>
+
+                </td>
+                <td><a href="{% url "projects-detail" pk=list.project.pk%}">{{ list.project.title}}</a></td>
+                <td>{{ list.created_at|timesince }}</td>
+                <td>
+                      <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                      aria-valuemin="0" aria-valuemax="100" style="width:{{ list.get_progress }}%">
+                        {{ list.get_progress }}%
+                      </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>

@@ -13,10 +13,10 @@
 	<form method='POST'>
 		{% csrf_token %}
 		{{ form|crispy }}
+
       </div>
       <div class="modal-footer">
-
-		<input type="submit" class="btn btn-primary" value="Save">
+        		<input type="submit" class="btn btn-primary" value="Save">
           	</form>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 

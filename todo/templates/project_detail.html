@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block style %}
+
+{% endblock style %}
+{% block content %}
+<div class="container">
+    <h1>{{ project.title }}
+        <button type="button" class="btn btn-success btn-lg"
+                data-toggle="modal" data-target="#myModal-project">Update Project
+        </button>
+    </h1>
+    {%  if request.user == project.user %}
+    <button type="button" class="btn btn-info"
+            data-toggle="modal" data-target="#myModal-invite">add member +
+    </button>
+    {% endif %}
+    <div class="tab-pane active" role="tabpanel">
+        {% include "modal/create.html" with target="myModal-project" modal_list_title="Update Project" %}
+    </div>
+    <div class="tab-pane active" role="tabpanel">
+        {% include "modal/invite.html" with target="myModal-invite" modal_list_title="Invite new Members" %}
+
+    </div>
+    <br>
+        <pre>
+            {{ project.description }}
+        </pre>
+    <br>
+    <h2>Related Lists:
+        <button type="button" class="btn btn-default"
+                data-toggle="modal" data-target="#myModal-list">Add List +
+        </button>
+    </h2>
+    <div class="tab-pane active" role="tabpanel">
+        {% include "modal/create.html" with target="myModal-list" form=list_form modal_list_title="Create List" %}
+    </div>
+    <br>
+    {% include "tables/list.html" with object_list=project.project_lists.all %}
+</div>
+{% endblock content %}

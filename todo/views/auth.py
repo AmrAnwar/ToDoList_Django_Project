@@ -28,7 +28,7 @@ class LoginView(TemplateView):
 
     def get(self, request):
         if not request.user.is_anonymous():
-            return HttpResponseRedirect(reverse('lists-list'))
+            return HttpResponseRedirect(reverse('projects-list'))
         return super(LoginView, self).get(request)
 
 

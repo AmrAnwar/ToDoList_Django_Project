@@ -45,6 +45,8 @@ class ProfileView(FormView):
         """
         initial = super(ProfileView, self).get_initial()
         initial['first_name'] = self.user.first_name
+        initial['first_name'] = self.user.first_name
+        initial['username'] = self.user.username
         initial['last_name'] = self.user.last_name
         initial['email'] = self.user.email
         return initial
@@ -70,7 +72,10 @@ class ProfileView(FormView):
         user_data = {
                 'first_name': form.cleaned_data.pop('first_name'),
                 'last_name': form.cleaned_data.pop('last_name'),
-            }
+                'username': form.cleaned_data.pop('username'),
+                'email': form.cleaned_data.pop('email'),
+
+        }
         self.profile.user.__dict__.update(user_data)
         self.profile.user.save()
         form.save()

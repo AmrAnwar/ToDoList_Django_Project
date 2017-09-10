@@ -1,12 +1,17 @@
 from django.core.urlresolvers import reverse
 from .test_init import InitTest
-from ..models import List, Task, Sublist
+from ..models import List, Task, Sublist, Project
 
 
 class TestList(InitTest):
     def setUp(self):
         super(TestList, self).setUp()
         self.client.login(username="guest", password="password")
+
+    def test_remove_project(self):
+        count = Project.objects.count()
+        self.client.delete(self.project.delete_url())
+        self.assertEqual(count - 1, Project.objects.count())
 
     def test_remove_list(self):
         count = List.objects.count()

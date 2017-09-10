@@ -7,7 +7,7 @@ class TaskFactory(factory.DjangoModelFactory):
         model = Task
     title = factory.sequence(lambda n: "task %s" % n)
     list = factory.Iterator(List.objects.all())
-    user = factory.LazyAttribute(lambda obj: obj.list.users.all().first())
+    user = factory.LazyAttribute(lambda obj: obj.list.project.users.all().first())
     points = factory.Iterator([1, 2, 3, 4])
     description = factory.Faker('text')
     file = factory.django.FileField()

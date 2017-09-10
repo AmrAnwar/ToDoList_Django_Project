@@ -9,15 +9,8 @@
                 data-toggle="modal" data-target="#myModal-list">Update List
         </button>
     </h1>
-    <button type="button" class="btn btn-info"
-            data-toggle="modal" data-target="#myModal-invite">add member +
-    </button>
     <div class="tab-pane active" role="tabpanel">
         {% include "modal/create.html" with target="myModal-list" modal_list_title="Update List" %}
-    </div>
-    <div class="tab-pane active" role="tabpanel">
-        {% include "modal/invite.html" with target="myModal-invite" modal_list_title="Invite new Members" %}
-
     </div>
     <br>
     <pre>{{ list.description }}

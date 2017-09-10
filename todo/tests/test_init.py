@@ -1,6 +1,6 @@
 from django.test import Client, TestCase
 from django.contrib.auth.models import User
-from ..factories import ListFactory, TaskFactory, SubListFactory, ProfileFactory
+from ..factories import ListFactory, TaskFactory, SubListFactory, ProfileFactory, ProjectFactory
 from django.core.urlresolvers import reverse
 
 
@@ -15,7 +15,8 @@ class InitTest(TestCase):
         self.user.set_password("password")
         self.user.save()
 
-        self.list = ListFactory(user=self.user, users=(self.user,))
+        self.project = ProjectFactory(user=self.user, users=(self.user,))
+        self.list = ListFactory(project=self.project)
         self.task = TaskFactory()
         self.sublist = SubListFactory()
         self.amr_profile = ProfileFactory(user=self.amr)
@@ -24,3 +25,8 @@ class InitTest(TestCase):
     def test_home(self):
         self.assertEqual(self.client.get(reverse("home")).status_code,
                          200)
+
+    # def test_profile(self):
+    #     self.client.login(username='guest', password='password')
+    #     res = self.client.get(reverse(self.amr_profile.get_absolute_url()))
+    #     self.assertEqual(res.status_code, 302)

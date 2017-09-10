@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .list import List
+from .project import Project
 
 import random
 import string
@@ -11,7 +11,7 @@ class Code(models.Model):
     generate code related to specific user and list to invite this user to this list
     """
     user = models.ForeignKey(User)
-    list = models.ForeignKey(List)
+    project = models.ForeignKey(Project, null=True)
 
     code = models.CharField(max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)

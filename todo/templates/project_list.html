@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+
+    <h2>Projects Table
+        <button type="button" class="btn btn-default btn-lg"
+            data-toggle="modal" data-target="#myModal-project">Create Project +</button>
+    </h2>
+    <div class="tab-pane active" role="tabpanel">
+        {% include "modal/create.html" with target="myModal-project" modal_list_title="Create project"%}
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manger</th>
+            <th>created</th>
+            <th>process</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in object_list %}
+            <tr>
+                <td>
+                {% if request.user == project.user %}
+                    <a href="{{ project.delete_url }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                {% endif %}
+                    <a href="{{ project.get_absolute_url }}"> {{ project.title }}</a>
+                    {% if project.project_lists %}
+
+
+                    <span id="gly_up_{{ project.id }}" class="fa fa-arrow-up" aria-hidden="true"></span>
+                    <span id="gly_down_{{ project.id }}" style="display: none" class="fa fa-arrow-down" aria-hidden="true"></span>
+
+
+                    <div id="list_task_table_{{ project.id }}" style="display: none">
+
+                            {% include "tables/list.html" with object_list=project.project_lists.all %}
+
+                    </div>
+                    {% endif %}
+
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#gly_up_{{ project.id }}").click(function () {
+                                $("#gly_up_{{ project.id }}").hide();
+                                $("#gly_down_{{ project.id }}").show();
+                                $("#list_task_table_{{project.id}}").show();
+                            });
+
+                            $("#gly_down_{{ project.id }}").click(function () {
+                                $("#gly_down_{{ project.id }}").hide();
+                                $("#gly_up_{{ project.id }}").show();
+                                $("#list_task_table_{{project.id}}").hide();
+                            });
+                        });
+                    </script>
+
+                </td>
+                <td><a href="{{ project.user.profile.get_absolute_url }}">{{ project.user.get_full_name }}</a></td>
+                <td>{{ project.created_at|timesince }}</td>
+                <td>
+                      <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                      aria-valuemin="0" aria-valuemax="100" style="width:{{ project.get_progress }}%">
+                        {{ project.get_progress }}%
+                      </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

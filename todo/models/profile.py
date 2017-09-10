@@ -23,16 +23,10 @@ class Profile(models.Model):
     about = models.TextField(null=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse("accounts:detail", kwargs={"pk": self.pk})
+        return reverse("profile-detail", kwargs={"username": self.user.username})
 
     def __str__(self):
         return "%s" % self.user
-
-    def get_follow_instances(self):
-        return self.following.all()
-
-    def get_follow_url(self):
-        return reverse("accounts:follow_toggle", kwargs={"pk": self.pk})
 
     def save(self, *args, **kwargs):
         """

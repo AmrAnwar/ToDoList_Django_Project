@@ -20,7 +20,7 @@ class TaskDetailView(UpdateView, DetailView):
         :param kwargs:
         """
         self.sublist_form = SubListForm(request.POST, prefix="sublist_form")
-        if request.user not in self.get_object().list.users.all():
+        if request.user not in self.get_object().list.project.users.all():
             raise Http404
         return super(TaskDetailView, self).dispatch(request, *args, **kwargs)
 

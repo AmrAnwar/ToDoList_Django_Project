@@ -35,3 +35,4 @@ class TestAuth(InitTest):
         self.client.login(username=self.amr.username, password="password")
         response = self.client.get(reverse('logout'))
         self.assertEqual(response.status_code, 302)
+

@@ -24,8 +24,12 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^profile/(?P<username>[\w-]+)/$', views.ProfileView.as_view(), name="profile-detail"),
     url(r'^lists/(?P<pk>\d+)/$', views.ListDetailView.as_view(), name="lists-detail"),
-    url(r'lists/invite/(?P<code>.+)/$', views.list_invite, name="lists-invite"),
     url(r'^tasks/(?P<pk>\d+)/$', views.TaskDetailView.as_view(), name="tasks-detail"),
+
+    url(r'projects/invite/(?P<code>.+)/$', views.project_invite, name="projects-invite"),
+    url(r'^projects/$', views.ProjectListView.as_view(), name="projects-list"),
+    url(r'^projects/(?P<pk>\d+)/$', views.ProjectDetailView.as_view(), name="projects-detail"),
+
     url(r'^lists/$', views.ListsView.as_view(), name="lists-list"),
     url(r'^remove/(?P<key>[\w-]+)/(?P<pk>\d+)/$', views.remove_redirect, name="remove"),
     url(r'^$', views.index, name='home'),
@@ -36,8 +40,6 @@ urlpatterns = [
         r'^accounts/register/$',
         views.RegisterView.as_view(),
         name='register'),
-
-
 ]
 
 if settings.DEBUG:
