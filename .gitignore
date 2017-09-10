@@ -98,4 +98,4 @@ ENV/
 
 media_cdn/
 static_cdn/
-
+db.sqlite3
